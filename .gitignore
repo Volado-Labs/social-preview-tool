@@ -1,0 +1,4 @@
+*.png
+*.jpg
+!branded-li.png
+!branded-x.png
