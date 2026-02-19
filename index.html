@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="light">
 <title>Post Preview — Volado Labs</title>
 <style>
@@ -98,15 +99,21 @@
   ══════════════════════════ */
   .main {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
+    align-items: flex-start;
     width: 100%;
-    padding: 28px 16px 60px;
-    gap: 0;
+    max-width: 1400px;
+    padding: 28px 24px 60px;
+    gap: 32px;
+    margin: 0 auto;
+  }
+  .editor-section, .editor-section * { flex-shrink: 0; }
+  @media (max-width: 1100px) {
+    .main { flex-direction: column; align-items: center; }
   }
 
   /* ── Platform Toggle ── */
-  .platform-toggle {
+  .platform-toggle { display: none !important; } .platform-toggle-hidden {
     display: flex;
     background: #dde1f0;
     border-radius: 999px;
@@ -142,13 +149,16 @@
   .toggle-btn svg { width: 15px; height: 15px; }
 
   /* ── Preview wrap ── */
-  .preview-wrap { width: 100%; max-width: 555px; }
+  .preview-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; align-items: start; flex: 1; }
+  .preview-platform-section { display: flex; flex-direction: column; gap: 10px; }
+  .preview-platform-label { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 700; color: #555; text-transform: uppercase; letter-spacing: .04em; padding: 0 2px; }
+  @media (max-width: 900px) { .preview-wrap { grid-template-columns: 1fr; } }
 
   /* ══════════════════════════
      LINKEDIN CARD
   ══════════════════════════ */
-  #li-preview { display: block; }
-  #x-preview  { display: none;  }
+  #li-preview { display: block; } /* always visible */
+  #x-preview  { display: block; } /* always visible */
 
   .li-card {
     background: #fff;
@@ -419,6 +429,47 @@
   .screenshot-btn svg { width: 15px; height: 15px; fill: #fff; }
 
 
+
+  /* ══════════════════════════
+     FACEBOOK CARD
+  ══════════════════════════ */
+  .fb-card { background:#fff; border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,.18); font-family:'Helvetica Neue',Arial,sans-serif; overflow:hidden; }
+  .fb-post-header { display:flex; align-items:center; gap:8px; padding:12px 16px 8px; }
+  .fb-avatar { width:40px; height:40px; border-radius:50%; background:#0866FF; color:#fff; font-weight:700; display:flex; align-items:center; justify-content:center; font-size:17px; flex-shrink:0; overflow:hidden; cursor:pointer; }
+  .fb-avatar img { width:100%; height:100%; object-fit:cover; }
+  .fb-post-name { font-weight:700; font-size:15px; color:#050505; line-height:1.2; }
+  .fb-post-info { font-size:12px; color:#65676b; display:flex; align-items:center; gap:3px; }
+  .fb-more-btn { margin-left:auto; background:none; border:none; font-size:18px; color:#65676b; cursor:pointer; padding:4px 8px; border-radius:50%; }
+  .fb-more-btn:hover { background:#f0f2f5; }
+  .fb-post-text { padding:0 16px 12px; font-size:15px; color:#050505; line-height:1.44; white-space:pre-wrap; word-break:break-word; }
+  .fb-post-img-wrap img { width:100%; display:block; }
+  .fb-reaction-summary { display:flex; align-items:center; padding:8px 16px; border-bottom:1px solid #e4e6eb; font-size:14px; color:#65676b; }
+  .fb-reactions-icons { margin-right:4px; }
+  .fb-comment-share { font-size:14px; }
+  .fb-action-bar { display:flex; border-top:1px solid #e4e6eb; }
+  .fb-action-btn { flex:1; display:flex; align-items:center; justify-content:center; gap:5px; padding:8px 4px; background:none; border:none; color:#65676b; font-size:14px; font-weight:700; border-radius:4px; cursor:pointer; }
+  .fb-action-btn:hover { background:#f0f2f5; }
+
+  /* ══════════════════════════
+     INSTAGRAM CARD
+  ══════════════════════════ */
+  .ig-card { background:#fff; border-radius:8px; box-shadow:0 1px 3px rgba(0,0,0,.18); font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif; overflow:hidden; }
+  .ig-post-header { display:flex; align-items:center; gap:10px; padding:14px 16px; }
+  .ig-avatar { width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); color:#fff; font-weight:700; display:flex; align-items:center; justify-content:center; font-size:13px; flex-shrink:0; overflow:hidden; cursor:pointer; }
+  .ig-avatar img { width:100%; height:100%; object-fit:cover; }
+  .ig-post-username { font-weight:700; font-size:14px; color:#262626; flex:1; }
+  .ig-follow-btn { font-size:14px; color:#0095f6; font-weight:700; background:none; border:none; cursor:pointer; padding:0; }
+  .ig-more-btn { background:none; border:none; font-size:18px; color:#262626; cursor:pointer; }
+  .ig-post-img-wrap { width:100%; aspect-ratio:1/1; background:#f5f5f5; display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; }
+  .ig-post-img-wrap img { width:100%; height:100%; object-fit:cover; }
+  .ig-no-img { color:#aaa; font-size:13px; text-align:center; padding:24px; }
+  .ig-action-bar { display:flex; align-items:center; padding:10px 16px; gap:14px; }
+  .ig-act-btn { background:none; border:none; cursor:pointer; padding:0; color:#262626; display:flex; align-items:center; }
+  .ig-save-btn { margin-left:auto; }
+  .ig-likes { padding:0 16px 4px; font-size:14px; font-weight:700; color:#262626; }
+  .ig-caption { padding:0 16px 14px; font-size:14px; color:#262626; line-height:1.5; word-break:break-word; }
+  .ig-caption-username { font-weight:700; margin-right:5px; }
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
@@ -559,6 +610,74 @@
         </div>
       </div>
     </div>
+
+      </div>
+    </div><!-- /.x-section -->
+
+    <!-- FACEBOOK -->
+    <div class="preview-platform-section">
+      <div class="preview-platform-label">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        Facebook
+      </div>
+      <div id="fb-preview">
+        <div class="fb-card">
+          <div class="fb-post-header">
+            <div class="fb-avatar" id="fb-avatar-el"><span id="fb-avatar-initials">C</span></div>
+            <div class="fb-post-meta">
+              <div class="fb-post-name" id="fb-display-name-el">Collin Wood</div>
+              <div class="fb-post-info">Just now &middot; &#127758;</div>
+            </div>
+            <button class="fb-more-btn">&bull;&bull;&bull;</button>
+          </div>
+          <div class="fb-post-text" id="fb-post-text"></div>
+          <div class="fb-post-img-wrap" id="fb-post-img-wrap" style="display:none"><img id="fb-post-img" src="" alt=""></div>
+          <div class="fb-reaction-summary">
+            <span class="fb-reactions-icons">&#128077;&#x2764;&#128518;</span>
+            <span class="fb-reaction-count">&nbsp;1.2K</span>
+            <span class="fb-comment-share" style="margin-left:auto">47 comments &middot; 23 shares</span>
+          </div>
+          <div class="fb-action-bar">
+            <button class="fb-action-btn">&#128077; Like</button>
+            <button class="fb-action-btn">&#128172; Comment</button>
+            <button class="fb-action-btn">&#8599; Share</button>
+          </div>
+        </div>
+      </div>
+    </div><!-- /.fb-section -->
+
+    <!-- INSTAGRAM -->
+    <div class="preview-platform-section">
+      <div class="preview-platform-label">
+        <svg viewBox="0 0 24 24" width="15" height="15"><defs><linearGradient id="ig-g" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#f09433"/><stop offset="50%" stop-color="#dc2743"/><stop offset="100%" stop-color="#bc1888"/></linearGradient></defs><path fill="url(#ig-g)" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+        Instagram
+      </div>
+      <div id="ig-preview">
+        <div class="ig-card">
+          <div class="ig-post-header">
+            <div class="ig-avatar" id="ig-avatar-el"><span id="ig-avatar-initials">C</span></div>
+            <span class="ig-post-username" id="ig-display-username-el">collinwood</span>
+            <button class="ig-follow-btn" style="margin-left:auto">Follow</button>
+            <button class="ig-more-btn">&bull;&bull;&bull;</button>
+          </div>
+          <div class="ig-post-img-wrap">
+            <div class="ig-no-img" id="ig-no-img-msg">&#128247; Add an image to complete the Instagram preview</div>
+            <img id="ig-post-img" src="" alt="" style="display:none">
+          </div>
+          <div class="ig-action-bar">
+            <button class="ig-act-btn" title="Like"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg></button>
+            <button class="ig-act-btn" title="Comment"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg></button>
+            <button class="ig-act-btn" title="Share"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg></button>
+            <button class="ig-act-btn ig-save-btn" title="Save"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"></path></svg></button>
+          </div>
+          <div class="ig-likes">1,247 likes</div>
+          <div class="ig-caption">
+            <span class="ig-caption-username" id="ig-caption-username-el">collinwood</span>
+            <span class="ig-caption-text" id="ig-post-caption"></span>
+          </div>
+        </div>
+      </div>
+    </div><!-- /.ig-section -->
 
   </div><!-- /.preview-wrap -->
 
