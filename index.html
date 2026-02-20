@@ -481,6 +481,163 @@
   .ig-caption { padding:0 16px 14px; font-size:14px; color:#262626; line-height:1.5; word-break:break-word; }
   .ig-caption-username { font-weight:700; margin-right:5px; }
 
+
+  /* ══════════════════════════
+     PREVIEW COLUMNS (desktop + mobile side-by-side)
+  ══════════════════════════ */
+  .preview-panel-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .preview-platform-label-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+  }
+  .preview-both {
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+  }
+  .preview-desktop-col {
+    flex: 1;
+    min-width: 0;
+  }
+  .preview-desktop-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-bottom: 8px;
+  }
+
+  /* ── Phone frame ── */
+  .mobile-col {
+    flex-shrink: 0;
+    width: 280px;
+  }
+  .mobile-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-bottom: 8px;
+  }
+  .phone-frame {
+    background: #1c1c1e;
+    border-radius: 42px;
+    padding: 13px;
+    box-shadow:
+      0 30px 80px rgba(0,0,0,.45),
+      0 0 0 1px rgba(255,255,255,.06) inset,
+      0 0 0 5px #2a2a2c inset;
+    position: relative;
+    width: 280px;
+  }
+  .phone-notch {
+    position: absolute;
+    top: 13px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 88px;
+    height: 24px;
+    background: #1c1c1e;
+    border-radius: 0 0 14px 14px;
+    z-index: 20;
+  }
+  .phone-screen {
+    background: #fff;
+    border-radius: 30px;
+    overflow: hidden;
+    height: 580px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    position: relative;
+  }
+  .phone-screen::-webkit-scrollbar { display: none; }
+  .phone-status-bar {
+    background: #fff;
+    padding: 30px 18px 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+    font-weight: 700;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .phone-status-time { font-size: 12px; font-weight: 800; }
+  .phone-status-icons { display: flex; gap: 4px; align-items: center; }
+
+  /* ── Mobile card overrides (smaller, phone-width) ── */
+  .mobile-li-card { font-size: 13px; }
+  .mobile-li-card .li-card-header { padding: 10px 12px 6px; }
+  .mobile-li-card .li-avatar { width: 36px; height: 36px; font-size: 14px; }
+  .mobile-li-card .li-display-name { font-size: 13px; }
+  .mobile-li-card .li-headline { font-size: 11px; }
+  .mobile-li-card .li-post-text { padding: 0 12px 8px; font-size: 13px; }
+  .mobile-li-card .li-post-img-wrap img { width: 100%; }
+  .mobile-li-card .li-engagement { padding: 4px 12px; font-size: 11px; }
+  .mobile-li-card .li-actions { padding: 2px 4px; }
+  .mobile-li-card .li-action-btn { font-size: 11px; padding: 6px 4px; }
+
+  .mobile-x-card { padding: 12px 12px 0; }
+  .mobile-x-card .x-avatar { width: 36px; height: 36px; font-size: 14px; }
+  .mobile-x-card .x-name { font-size: 13px; }
+  .mobile-x-card .x-handle { font-size: 11px; }
+  .mobile-x-card .x-post-text { font-size: 13px; }
+  .mobile-x-card .x-post-img-wrap img { border-radius: 10px; }
+  .mobile-x-card .x-metrics { font-size: 12px; padding: 8px 0; }
+  .mobile-x-card .x-actions { padding: 4px 0; }
+
+  .mobile-fb-card .fb-post-header { padding: 10px 12px 6px; }
+  .mobile-fb-card .fb-avatar { width: 34px; height: 34px; font-size: 14px; }
+  .mobile-fb-card .fb-post-name { font-size: 13px; }
+  .mobile-fb-card .fb-post-text { padding: 0 12px 8px; font-size: 14px; }
+  .mobile-fb-card .fb-reaction-summary { padding: 6px 12px; font-size: 12px; }
+  .mobile-fb-card .fb-action-btn { font-size: 13px; padding: 6px 2px; }
+
+  .mobile-ig-card .ig-post-header { padding: 10px 12px; }
+  .mobile-ig-card .ig-avatar { width: 28px; height: 28px; font-size: 12px; }
+  .mobile-ig-card .ig-post-username { font-size: 13px; }
+  .mobile-ig-card .ig-likes { padding: 0 12px 3px; font-size: 13px; }
+  .mobile-ig-card .ig-caption { padding: 0 12px 10px; font-size: 13px; }
+  .mobile-ig-card .ig-action-bar { padding: 6px 12px; }
+
+  /* Screenshot wrapper (off-screen, used for capture) */
+  #screenshot-capture {
+    position: fixed;
+    left: -9999px;
+    top: 0;
+    background: #f4f5f8;
+    padding: 32px;
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    border-radius: 16px;
+  }
+  .screenshot-col-label {
+    font-family: 'Manrope', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: #999;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
@@ -533,6 +690,9 @@
 
     <!-- ── LinkedIn Preview ── -->
     <div id="li-preview">
+  <div class="preview-both">
+    <div class="preview-desktop-col">
+      <div class="preview-desktop-label">Desktop</div>
       <div class="li-card">
         <div class="li-header">
           <div class="avatar-wrap" onclick="document.getElementById('avatar-file').click()">
@@ -581,6 +741,9 @@
 
     <!-- ── X Preview ── -->
     <div id="x-preview">
+  <div class="preview-both">
+    <div class="preview-desktop-col">
+      <div class="preview-desktop-label">Desktop</div>
       <div class="x-card">
         <div class="x-post">
           <div class="x-avatar-col">
@@ -635,6 +798,9 @@
       
 
     <div id="fb-preview">
+  <div class="preview-both">
+    <div class="preview-desktop-col">
+      <div class="preview-desktop-label">Desktop</div>
         <div class="fb-card">
           <div class="fb-post-header">
             <div class="fb-avatar" id="fb-avatar-el"><span id="fb-avatar-initials">C</span></div>
@@ -660,6 +826,9 @@
       
 
     <div id="ig-preview">
+  <div class="preview-both">
+    <div class="preview-desktop-col">
+      <div class="preview-desktop-label">Desktop</div>
         <div class="ig-card">
           <div class="ig-post-header">
             <div class="ig-avatar" id="ig-avatar-el"><span id="ig-avatar-initials">C</span></div>
@@ -841,7 +1010,7 @@
     el.className   = 'char-count' + (len > lim * 0.9 ? ' warn' : '') + (len > lim ? ' over' : '');
   }
 
-  function updatePreview() {
+  function updatePreview() { setTimeout(syncMobilePreviews, 50);
     const raw    = document.getElementById('post-input').value;
     const name   = document.getElementById('name-input').value  || 'Your Name';
     const title  = document.getElementById('title-input').value || '';
@@ -892,23 +1061,101 @@ If you run a local business and you're serious about growth, DM me "AUDIT" and I
 
 #LocalSEO #MarketingStrategy #VoladoLabs`;
 
-  function downloadScreenshot() {
-    const targetId = platform === 'li' ? 'li-preview' : 'x-preview';
-    const el = document.getElementById(targetId);
-    const btn = document.querySelector('.screenshot-btn');
-    btn.textContent = 'Capturing…';
-    html2canvas(el, { useCORS: true, scale: 2 }).then(canvas => {
-      const link = document.createElement('a');
-      const ts = new Date().toISOString().slice(0,19).replace(/[T:]/g, '-');
-      link.download = `post-preview-${platform}-${ts}.png`;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-      btn.innerHTML = '<svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:#fff"><path d="M9 2a1 1 0 00-.894.553L7.382 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2h-3.382l-.724-1.447A1 1 0 0015 2H9zm3 5a5 5 0 110 10A5 5 0 0112 7zm0 2a3 3 0 100 6 3 3 0 000-6z"/></svg> Download Screenshot';
+
+  function syncMobilePreviews() {
+    const pairs = [
+      { desktop: '.li-card',  mobile: '.mobile-li-card' },
+      { desktop: '.x-tweet',  mobile: '.mobile-x-card'  },
+      { desktop: '.fb-card',  mobile: '.mobile-fb-card' },
+      { desktop: '.ig-card',  mobile: '.mobile-ig-card' },
+    ];
+    pairs.forEach(({ desktop, mobile }) => {
+      const src = document.querySelector(desktop);
+      const dst = document.querySelector(mobile);
+      if (src && dst) {
+        dst.innerHTML = src.innerHTML;
+        // Copy any inline styles (e.g. image src)
+        Array.from(src.querySelectorAll('[style]')).forEach((el, i) => {
+          const mirrors = dst.querySelectorAll('[style]');
+          if (mirrors[i]) mirrors[i].setAttribute('style', el.getAttribute('style'));
+        });
+      }
     });
   }
 
+  function downloadScreenshot() {
+    const p = platform;
+    const desktopEl = document.getElementById(p + '-preview');
+    if (!desktopEl) return;
+
+    // Find the desktop card and phone frame
+    const cardEl    = desktopEl.querySelector('.preview-desktop-col > :not(.preview-desktop-label)');
+    const phoneEl   = desktopEl.querySelector('.phone-frame');
+    if (!cardEl || !phoneEl) {
+      // Fallback: just capture the preview div
+      const btn = document.querySelector('.screenshot-btn');
+      btn.textContent = 'Capturing…';
+      html2canvas(desktopEl, { useCORS: true, scale: 2 }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = `post-preview-${p}-${new Date().toISOString().slice(0,10)}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        btn.innerHTML = '<svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:#fff"><path d="M9 2a1 1 0 00-.894.553L7.382 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2h-3.382l-.724-1.447A1 1 0 0015 2H9zm3 5a5 5 0 110 10A5 5 0 0112 7zm0 2a3 3 0 100 6 3 3 0 000-6z"/></svg> Download Screenshot';
+      });
+      return;
+    }
+
+    const capture = document.getElementById('screenshot-capture');
+    const platformNames = { li: 'LinkedIn', x: 'X (Twitter)', fb: 'Facebook', ig: 'Instagram' };
+    const platformColors = { li: '#0a66c2', x: '#000', fb: '#1877F2', ig: '#c13584' };
+
+    capture.innerHTML = '';
+    capture.style.background = '#f0f2f5';
+
+    // Header label
+    const header = document.createElement('div');
+    header.style.cssText = 'position:absolute;top:10px;left:32px;right:32px;font-family:Manrope,sans-serif;font-size:13px;font-weight:700;color:' + platformColors[p] + ';letter-spacing:.04em;text-transform:uppercase;';
+    header.textContent = platformNames[p] + ' Preview';
+    capture.appendChild(header);
+
+    // Desktop col
+    const deskWrap = document.createElement('div');
+    deskWrap.innerHTML = '<div style="font-family:Manrope,sans-serif;font-size:11px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;text-align:center;">Desktop</div>';
+    const deskClone = cardEl.cloneNode(true);
+    deskWrap.appendChild(deskClone);
+    deskWrap.style.cssText = 'flex-shrink:0;margin-top:32px;';
+    capture.appendChild(deskWrap);
+
+    // Mobile col
+    const mobileWrap = document.createElement('div');
+    const phoneClone = phoneEl.cloneNode(true);
+    phoneClone.style.width = '280px';
+    mobileWrap.innerHTML = '<div style="font-family:Manrope,sans-serif;font-size:11px;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;text-align:center;">Mobile</div>';
+    mobileWrap.appendChild(phoneClone);
+    mobileWrap.style.cssText = 'flex-shrink:0;margin-top:32px;';
+    capture.appendChild(mobileWrap);
+
+    const btn = document.querySelector('.screenshot-btn');
+    btn.textContent = 'Capturing…';
+
+    // Slight delay so images settle
+    setTimeout(() => {
+      html2canvas(capture, { useCORS: true, scale: 2, backgroundColor: '#f0f2f5' }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'post-preview-' + p + '-' + new Date().toISOString().slice(0,10) + '.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+        btn.innerHTML = '<svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:#fff"><path d="M9 2a1 1 0 00-.894.553L7.382 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2h-3.382l-.724-1.447A1 1 0 0015 2H9zm3 5a5 5 0 110 10A5 5 0 0112 7zm0 2a3 3 0 100 6 3 3 0 000-6z"/></svg> Download Screenshot';
+        capture.innerHTML = '';
+      });
+    }, 150);
+  }
+
+
   updateCharCount();
   updatePreview();
+  syncMobilePreviews();
 </script>
+<div id="screenshot-capture"></div>
 </body>
 </html>
