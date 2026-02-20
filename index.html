@@ -1172,13 +1172,14 @@ If you run a local business and you're serious about growth, DM me "AUDIT" and I
 
   function buildMobileCard(plat, raw, name, title, handle, avHtml) {
     const initial = (name || 'Y').charAt(0).toUpperCase();
-    // Avatar inner HTML
-    const avInner = avHtml ||
-      `<span style="font-size:16px;font-weight:700;color:#fff">${initial}</span>`;
-
-    function avatarDiv(size, bg, extra) {
-      const actualBg = avHtml ? 'transparent' : bg;
-      return `<div style="width:${size}px;height:${size}px;border-radius:50%;background:${actualBg};display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;${extra||''}">${avInner}</div>`;
+    // Avatar inner HTML — when no photo use colored initial on white background
+    function avatarDiv(size, textColor, extra) {
+      const bg = avHtml ? 'transparent' : '#ffffff';
+      const border = avHtml ? '' : `border:1.5px solid #dde1ea;`;
+      const inner = avHtml
+        ? avHtml
+        : `<span style="font-size:16px;font-weight:700;color:${textColor}">${initial}</span>`;
+      return `<div style="width:${size}px;height:${size}px;border-radius:50%;background:${bg};${border}display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;${extra||''}">${inner}</div>`;
     }
 
     const esc = t => (t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -1187,7 +1188,7 @@ If you run a local business and you're serious about growth, DM me "AUDIT" and I
 
     // ── LinkedIn mobile feed ────────────────────────────────────────────────
     if (plat === 'li') {
-      const liBg = 'linear-gradient(135deg,#0077b5,#004182)';
+      const liBg = '#0077b5';
       const postHtml = formatLI(raw);
       const showSeeMore = raw.length > 80; // approximate: most posts >80 chars wrap past 3 lines
       return `<div style="background:#f3f2ef;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif">
@@ -1241,7 +1242,7 @@ If you run a local business and you're serious about growth, DM me "AUDIT" and I
 
     // ── X / Twitter mobile feed ─────────────────────────────────────────────
     if (plat === 'x') {
-      const xBg = 'linear-gradient(135deg,#1d9bf0,#0063bf)';
+      const xBg = '#1d9bf0';
       const hdl = handle && handle.startsWith('@') ? handle : '@' + (handle || 'handle');
       const tweetHtml = formatX(raw);
       return `<div style="background:#fff;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif">
@@ -1340,7 +1341,7 @@ If you run a local business and you're serious about growth, DM me "AUDIT" and I
 
     // ── Instagram mobile feed ───────────────────────────────────────────────
     if (plat === 'ig') {
-      const igBg = 'linear-gradient(135deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%)';
+      const igBg = '#bc1888';
       const igSlug = name.toLowerCase().replace(/\s+/g,'');
       const imgArea = postImgDataUrl
         ? `<img src="${postImgDataUrl}" style="width:100%;height:100%;object-fit:cover;display:block">`
@@ -1359,7 +1360,7 @@ If you run a local business and you're serious about growth, DM me "AUDIT" and I
         <div style="display:flex;gap:12px;padding:10px 12px;border-bottom:1px solid #dbdbdb;overflow:hidden">
           <div style="flex-shrink:0;text-align:center">
             <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(45deg,#fd5,#f90,#f15,#a00aff);padding:2px;margin-bottom:3px">
-              <div style="width:100%;height:100%;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden">${avInner}</div>
+              <div style="width:100%;height:100%;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden">${avHtml || `<span style="font-size:16px;font-weight:700;color:#bc1888">${initial}</span>`}</div>
             </div>
             <div style="font-size:10px;color:#262626;max-width:52px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Your story</div>
           </div>
