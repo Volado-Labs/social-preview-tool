@@ -933,9 +933,10 @@
     document.querySelectorAll('.toggle-btn').forEach(btn => btn.classList.remove('active'));
     const activeBtn = document.getElementById('btn-' + p);
     if(activeBtn) activeBtn.classList.add('active');
-    // update char count limit
-    updateCharCount(p);
-    return; // skip original logic below
+    // update global platform var + char count
+    platform = p;
+    updateCharCount();
+    updatePreview();
   }
   function setPlatform_orig(p) {
     platform = p;
@@ -1023,6 +1024,8 @@
       document.getElementById('li-avatar-el').innerHTML = letter;
       document.getElementById('x-avatar-el').innerHTML  = letter;
       document.getElementById('editor-avatar').innerHTML = letter;
+      const fbInit = document.getElementById('fb-avatar-initials'); if(fbInit && !document.getElementById('fb-avatar-el').querySelector('img')) fbInit.textContent = name.charAt(0).toUpperCase();
+      const igInit = document.getElementById('ig-avatar-initials'); if(igInit && !document.getElementById('ig-avatar-el').querySelector('img')) igInit.textContent = name.charAt(0).toUpperCase();
     }
 
     // LinkedIn text + truncation
@@ -1039,6 +1042,29 @@
     }
 
     document.getElementById('x-post-display').innerHTML = formatX(raw);
+
+    // ── Facebook ──
+    const fbNameEl = document.getElementById('fb-display-name-el');
+    if (fbNameEl) fbNameEl.textContent = name;
+    const fbTextEl = document.getElementById('fb-post-text');
+    if (fbTextEl) fbTextEl.textContent = raw;
+    if (!avatarDataUrl) {
+      const fbAv = document.getElementById('fb-avatar-initials');
+      if (fbAv) fbAv.textContent = name.charAt(0).toUpperCase();
+    }
+
+    // ── Instagram ──
+    const igUserEl  = document.getElementById('ig-display-username-el');
+    const igCapUser = document.getElementById('ig-caption-username-el');
+    const igSlug    = name.toLowerCase().replace(/\s+/g, '');
+    if (igUserEl)  igUserEl.textContent  = igSlug;
+    if (igCapUser) igCapUser.textContent = igSlug;
+    const igCapEl = document.getElementById('ig-post-caption');
+    if (igCapEl) igCapEl.textContent = raw;
+    if (!avatarDataUrl) {
+      const igAv = document.getElementById('ig-avatar-initials');
+      if (igAv) igAv.textContent = name.charAt(0).toUpperCase();
+    }
   }
 
   document.getElementById('post-input').addEventListener('input', () => { updateCharCount(); updatePreview(); });
@@ -1062,7 +1088,7 @@ If you run a local business and you're serious about growth, DM me "AUDIT" and I
   function syncMobilePreviews() {
     const pairs = [
       { desktop: '.li-card',  mobile: '.mobile-li-card' },
-      { desktop: '.x-tweet',  mobile: '.mobile-x-card'  },
+      { desktop: '.x-card',   mobile: '.mobile-x-card'  },
       { desktop: '.fb-card',  mobile: '.mobile-fb-card' },
       { desktop: '.ig-card',  mobile: '.mobile-ig-card' },
     ];
