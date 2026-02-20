@@ -1001,16 +1001,6 @@
     updateCharCount();
     updatePreview();
   }
-  function setPlatform_orig(p) {
-    platform = p;
-    document.body.classList.toggle('x-mode', p === 'x');
-    document.getElementById('li-preview').style.display = p === 'li' ? 'block' : 'none';
-    document.getElementById('x-preview').style.display  = p === 'x'  ? 'block' : 'none';
-    document.getElementById('btn-li').classList.toggle('active', p === 'li');
-    document.getElementById('btn-x').classList.toggle('active', p === 'x');
-    updateCharCount(); updatePreview();
-  }
-
   function handleAvatar(e) {
     const file = e.target.files[0]; if (!file) return;
     const r = new FileReader();
