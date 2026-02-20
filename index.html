@@ -1188,24 +1188,250 @@ If you run a local business and you're serious about growth, DM me "AUDIT" and I
 #LocalSEO #MarketingStrategy #VoladoLabs`;
 
 
+  // ── Mobile feed card builders ──────────────────────────────────────────────
+  // Renders an authentic mobile-app feed view for each platform.
+  // Text is CSS line-clamped to match what users see BEFORE expanding a post.
+
+  function buildMobileCard(plat, raw, name, title, handle, avHtml) {
+    const initial = (name || 'Y').charAt(0).toUpperCase();
+    // Avatar inner HTML
+    const avInner = avHtml ||
+      `<span style="font-size:16px;font-weight:700;color:#fff">${initial}</span>`;
+
+    function avatarDiv(size, bg, extra) {
+      return `<div style="width:${size}px;height:${size}px;border-radius:50%;background:${bg};display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;${extra||''}">${avInner}</div>`;
+    }
+
+    const esc = t => (t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const clamp = (lines) =>
+      `overflow:hidden;display:-webkit-box;-webkit-line-clamp:${lines};-webkit-box-orient:vertical;word-break:break-word;`;
+
+    // ── LinkedIn mobile feed ────────────────────────────────────────────────
+    if (plat === 'li') {
+      const liBg = 'linear-gradient(135deg,#0077b5,#004182)';
+      const postHtml = formatLI(raw);
+      const showSeeMore = raw.length > 80; // approximate: most posts >80 chars wrap past 3 lines
+      return `<div style="background:#f3f2ef;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif">
+        <!-- LI top app bar -->
+        <div style="background:#fff;padding:8px 12px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #e0e0e0;position:sticky;top:0;z-index:10">
+          ${avatarDiv(30, liBg, '')}
+          <div style="flex:1;display:flex;justify-content:center">
+            <svg width="22" height="22" viewBox="0 0 34 34" fill="#0077b5"><path d="M34 2.5v29A2.5 2.5 0 0131.5 34h-29A2.5 2.5 0 010 31.5v-29A2.5 2.5 0 012.5 0h29A2.5 2.5 0 0134 2.5zM10 13H5v16h5V13zm.45-5.5a2.95 2.95 0 10-5.9 0 2.95 2.95 0 005.9 0zM29 19.28c0-4.81-3.06-6.68-6.1-6.68a5.7 5.7 0 00-5.06 2.58H17.7V13H13v16h5v-8.51a3.32 3.32 0 013.23-3.5c1.86 0 2.77 1.26 2.77 3.46V29h5v-9.72z"/></svg>
+          </div>
+          <div style="display:flex;gap:16px;align-items:center">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          </div>
+        </div>
+        <!-- Feed card -->
+        <div style="background:#fff;margin:8px 0;border-top:1px solid #e0e0e0;border-bottom:1px solid #e0e0e0">
+          <div style="display:flex;align-items:flex-start;padding:12px 12px 0;gap:8px">
+            ${avatarDiv(40, liBg, '')}
+            <div style="flex:1;min-width:0">
+              <div style="font-size:14px;font-weight:700;color:rgba(0,0,0,.9)">${esc(name)} <span style="font-weight:400;color:rgba(0,0,0,.55);font-size:12px">· 1st</span></div>
+              <div style="font-size:11px;color:rgba(0,0,0,.6);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:150px">${esc(title||'Entrepreneur')}</div>
+              <div style="font-size:11px;color:rgba(0,0,0,.5);margin-top:1px">2h · 🌐</div>
+            </div>
+            <button style="background:none;border:none;color:#0a66c2;font-size:13px;font-weight:700;cursor:pointer;padding:2px 0;font-family:inherit;white-space:nowrap">+ Follow</button>
+          </div>
+          <!-- Text: clamped to 3 lines (feed view before expanding) -->
+          <div style="padding:8px 12px 0;font-size:14px;color:rgba(0,0,0,.9);line-height:1.5;${clamp(3)}">${postHtml}</div>
+          ${showSeeMore ? `<div style="padding:2px 12px 6px"><span style="color:rgba(0,0,0,.55);font-size:14px">…see more</span></div>` : `<div style="padding-bottom:6px"></div>`}
+          ${postImgDataUrl ? `<img src="${postImgDataUrl}" style="width:100%;max-height:200px;object-fit:cover;display:block">` : ''}
+          <!-- Engagement -->
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 12px;border-top:1px solid #f0f0f0;margin-top:4px">
+            <div style="display:flex;align-items:center;gap:3px">
+              <span style="font-size:14px">👍</span><span style="font-size:14px;margin-left:-3px">❤️</span><span style="font-size:14px;margin-left:-3px">💡</span>
+              <span style="font-size:12px;color:rgba(0,0,0,.55);margin-left:3px">127</span>
+            </div>
+            <span style="font-size:12px;color:rgba(0,0,0,.55)">14 comments</span>
+          </div>
+          <div style="border-top:1px solid #e8e8e8;margin:0 8px"></div>
+          <!-- Action bar -->
+          <div style="display:flex;padding:2px 0 6px">
+            ${['👍 Like','💬 Comment','♻️ Repost','↗️ Send'].map(a=>`<button style="flex:1;display:flex;align-items:center;justify-content:center;gap:3px;padding:8px 1px;border:none;background:none;color:rgba(0,0,0,.6);font-size:11px;font-weight:600;font-family:inherit;cursor:pointer">${a}</button>`).join('')}
+          </div>
+        </div>
+        <!-- Ghost next post (shows feed context) -->
+        <div style="background:#fff;padding:12px;opacity:.35">
+          <div style="display:flex;gap:8px"><div style="width:36px;height:36px;border-radius:50%;background:#ddd;flex-shrink:0"></div><div style="flex:1"><div style="width:90px;height:9px;background:#ddd;border-radius:4px;margin-bottom:5px"></div><div style="width:140px;height:8px;background:#eee;border-radius:4px"></div></div></div>
+        </div>
+      </div>`;
+    }
+
+    // ── X / Twitter mobile feed ─────────────────────────────────────────────
+    if (plat === 'x') {
+      const xBg = 'linear-gradient(135deg,#1d9bf0,#0063bf)';
+      const hdl = handle && handle.startsWith('@') ? handle : '@' + (handle || 'handle');
+      const tweetHtml = formatX(raw);
+      return `<div style="background:#fff;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif">
+        <!-- X top bar -->
+        <div style="background:#fff;padding:8px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #eff3f4;position:sticky;top:0;z-index:10">
+          ${avatarDiv(28, xBg, '')}
+          <div style="flex:1;display:flex;justify-content:center">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#000"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#536471" stroke-width="2.5"><circle cx="12" cy="5" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="12" cy="19" r="1.2"/></svg>
+        </div>
+        <!-- For You / Following tabs -->
+        <div style="display:flex;border-bottom:1px solid #eff3f4">
+          <div style="flex:1;text-align:center;padding:14px;font-size:15px;font-weight:700;color:#0f1419;border-bottom:2px solid #1d9bf0">For You</div>
+          <div style="flex:1;text-align:center;padding:14px;font-size:15px;color:#536471">Following</div>
+        </div>
+        <!-- Tweet -->
+        <div style="padding:12px 14px;border-bottom:1px solid #eff3f4;display:flex;gap:10px">
+          ${avatarDiv(38, xBg, 'align-self:flex-start')}
+          <div style="flex:1;min-width:0">
+            <div style="display:flex;align-items:flex-start;gap:4px;flex-wrap:wrap;margin-bottom:3px">
+              <span style="font-size:14px;font-weight:700;color:#0f1419">${esc(name)}</span>
+              <span style="background:#1d9bf0;border-radius:50%;width:16px;height:16px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="9" height="9" viewBox="0 0 24 24" fill="#fff"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>
+              <span style="font-size:13px;color:#536471">${hdl}</span>
+              <span style="color:#536471">·</span>
+              <span style="font-size:13px;color:#536471">2h</span>
+              <button style="margin-left:auto;background:none;border:none;color:#536471;font-size:18px;cursor:pointer;padding:0;line-height:1">···</button>
+            </div>
+            <!-- Full tweet text — X doesn't truncate in feed for normal-length posts -->
+            <div style="font-size:14px;color:#0f1419;line-height:1.5;white-space:pre-wrap;word-break:break-word;margin-bottom:10px">${tweetHtml}</div>
+            ${postImgDataUrl ? `<div style="border-radius:12px;overflow:hidden;margin-bottom:10px"><img src="${postImgDataUrl}" style="width:100%;max-height:220px;object-fit:cover;display:block"></div>` : ''}
+            <!-- Actions -->
+            <div style="display:flex;justify-content:space-between;align-items:center;color:#536471;font-size:12px;max-width:260px">
+              <button style="display:flex;align-items:center;gap:4px;background:none;border:none;color:#536471;font-size:12px;cursor:pointer;padding:4px 0"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 7.501 3.58 7.501 8 0 4.421-3.01 8-7.5 8h-8.366c-.476.016-.85-.02-1.24-.248-.392-.228-.632-.603-.634-1.028L3.35 14.23l-.77.22c-.56.16-1.13-.2-1.25-.77l1.624-.37L2.754 11zm2-.003.003 2.5-.003 2.5H9.756c3.373 0 5.501-2.58 5.501-6 0-3.42-2.128-6-5.5-6H9.756c-3.373 0-6.005 2.58-6.005 6z"/></svg>312</button>
+              <button style="display:flex;align-items:center;gap:4px;background:none;border:none;color:#536471;font-size:12px;cursor:pointer;padding:4px 0"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.75 3.79l4.603 4.3-1.706 1.82L6 8.38v7.37c0 .97.784 1.75 1.75 1.75H13V19H7.75C5.679 19 4 17.32 4 15.25V8.38L2.353 9.91.647 8.09l4.103-4.3zm11.5 2.71H11V4.5h5.25c2.071 0 3.75 1.68 3.75 3.75V15.62l1.647-1.53 1.706 1.82-4.103 4.3-4.603-4.3 1.706-1.82L18 15.62V8.25c0-.97-.784-1.75-1.75-1.75z"/></svg>1.8K</button>
+              <button style="display:flex;align-items:center;gap:4px;background:none;border:none;color:#536471;font-size:12px;cursor:pointer;padding:4px 0"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M16.697 5.5c-1.222-.06-2.679.51-3.89 2.16l-.805 1.09-.806-1.09C9.984 6.01 8.526 5.44 7.304 5.5c-1.243.07-2.349.78-2.91 1.91-.552 1.12-.633 2.78.479 4.82 1.074 1.97 3.257 4.27 7.129 6.61 3.87-2.34 6.052-4.64 7.126-6.61 1.111-2.04 1.03-3.7.477-4.82-.561-1.13-1.666-1.84-2.908-1.91zm4.187 7.69c-1.351 2.48-4.001 5.12-8.379 7.67l-.503.3-.504-.3c-4.379-2.55-7.029-5.19-8.382-7.67-1.36-2.5-1.41-4.86-.514-6.67.887-1.79 2.647-2.91 4.601-3.01 1.651-.09 3.368.56 4.798 2.01 1.429-1.45 3.146-2.1 4.796-2.01 1.954.1 3.714 1.22 4.601 3.01.896 1.81.846 4.17-.514 6.67z"/></svg>1,847</button>
+              <button style="display:flex;align-items:center;gap:4px;background:none;border:none;color:#536471;font-size:12px;cursor:pointer;padding:4px 0"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8.75 21V3h2v18h-2zM18 21V8.5h2V21h-2zM4 21l.004-10h2L6 21H4zm9.248 0v-7h2v7h-2z"/></svg>24.8K</button>
+              <button style="display:flex;align-items:center;gap:4px;background:none;border:none;color:#536471;font-size:12px;cursor:pointer;padding:4px 0;margin-left:auto"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.59l5.7 5.7-1.41 1.42L13 6.41V16h-2V6.41l-3.3 3.3-1.41-1.42L12 2.59zM21 15l-.02 3.51c0 1.38-1.12 2.49-2.5 2.49H5.5C4.11 21 3 19.88 3 18.5V15h2v3.5c0 .28.22.5.5.5h12.98c.28 0 .5-.22.5-.5L19 15h2z"/></svg></button>
+            </div>
+          </div>
+        </div>
+        <!-- Ghost next tweet -->
+        <div style="padding:12px 14px;border-bottom:1px solid #eff3f4;display:flex;gap:10px;opacity:.35">
+          <div style="width:38px;height:38px;border-radius:50%;background:#e7e9ea;flex-shrink:0"></div>
+          <div style="flex:1"><div style="width:100px;height:10px;background:#e7e9ea;border-radius:4px;margin-bottom:6px"></div><div style="width:180px;height:9px;background:#eff3f4;border-radius:4px"></div></div>
+        </div>
+      </div>`;
+    }
+
+    // ── Facebook mobile feed ────────────────────────────────────────────────
+    if (plat === 'fb') {
+      const fbBg = '#0866FF';
+      const showSeeMore = raw.length > 100;
+      return `<div style="background:#f0f2f5;min-height:100%;font-family:'Helvetica Neue',Arial,sans-serif">
+        <!-- FB top bar -->
+        <div style="background:#fff;padding:6px 10px;border-bottom:1px solid #e4e6eb;position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:8px">
+          <svg width="34" height="34" viewBox="0 0 38 38" fill="#1877F2"><path d="M38 19a19 19 0 10-21.969 18.773V24.498H11.2V19h4.831v-4.188c0-4.768 2.839-7.401 7.185-7.401 2.081 0 4.261.372 4.261.372v4.683h-2.4c-2.364 0-3.099 1.468-3.099 2.972V19h5.277l-.843 5.498h-4.434v13.275A19.006 19.006 0 0038 19z"/></svg>
+          <div style="flex:1;background:#f0f2f5;border-radius:999px;padding:7px 12px;font-size:13px;color:#65676b">Search Facebook</div>
+          <svg width="30" height="30" viewBox="0 0 32 32" fill="#0084ff"><path d="M16 0C7.178 0 0 6.728 0 15.037c0 4.746 2.3 8.979 5.913 11.763V32l5.396-2.968C12.756 29.343 14.345 29.59 16 29.59c8.822 0 16-6.728 16-14.553C32 6.728 24.822 0 16 0z"/><path d="M17.81 19.587l-4.064-4.326-7.935 4.326 8.724-9.26 4.162 4.326 7.837-4.326z" fill="#fff"/></svg>
+        </div>
+        <!-- Story bar (context) -->
+        <div style="background:#fff;padding:8px 10px;margin-bottom:8px;display:flex;gap:8px;border-bottom:1px solid #e4e6eb">
+          <div style="width:52px;flex-shrink:0"><div style="width:52px;height:80px;background:linear-gradient(180deg,#ddd 60%,#eee 100%);border-radius:10px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px"><div style="width:28px;height:28px;border-radius:50%;background:#1877F2;border:2px solid #fff;display:flex;align-items:center;justify-content:center"><span style="color:#fff;font-weight:700;font-size:14px">+</span></div></div><div style="font-size:10px;text-align:center;color:#050505;margin-top:4px;font-weight:600">Add story</div></div>
+          ${[['#c8a87a','A'],['#8bb4d4','B'],['#a8c8a0','C']].map(([bg,l])=>`<div style="width:52px;flex-shrink:0"><div style="width:52px;height:80px;background:${bg};border-radius:10px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px"><div style="width:24px;height:24px;border-radius:50%;background:#ddd;border:2px solid #fff"></div></div></div>`).join('')}
+        </div>
+        <!-- Post card -->
+        <div style="background:#fff;margin-bottom:8px">
+          <div style="display:flex;align-items:center;gap:8px;padding:10px 10px 6px">
+            ${avatarDiv(38, fbBg, '')}
+            <div style="flex:1">
+              <div style="font-size:14px;font-weight:700;color:#050505">${esc(name)}</div>
+              <div style="font-size:12px;color:#65676b">Just now · 🌐</div>
+            </div>
+            <button style="background:none;border:none;font-size:18px;color:#65676b;cursor:pointer;padding:4px 8px;border-radius:50%">···</button>
+          </div>
+          <!-- Text: clamped to 3 lines in feed -->
+          <div style="padding:0 10px 4px;font-size:15px;color:#050505;line-height:1.44;${clamp(3)}">${esc(raw)}</div>
+          ${showSeeMore ? `<div style="padding:0 10px 8px"><span style="font-size:15px;color:#050505;font-weight:700;cursor:pointer">See more</span></div>` : `<div style="padding-bottom:8px"></div>`}
+          ${postImgDataUrl ? `<img src="${postImgDataUrl}" style="width:100%;display:block">` : ''}
+          <div style="display:flex;align-items:center;padding:6px 10px;border-top:1px solid #e4e6eb">
+            <span style="font-size:14px">👍❤️😂</span>
+            <span style="font-size:13px;color:#65676b;margin-left:4px">1.2K</span>
+            <span style="font-size:13px;color:#65676b;margin-left:auto">47 comments · 23 shares</span>
+          </div>
+          <div style="display:flex;border-top:1px solid #e4e6eb">
+            ${['👍 Like','💬 Comment','↗️ Share'].map(a=>`<button style="flex:1;padding:8px 2px;background:none;border:none;color:#65676b;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer">${a}</button>`).join('')}
+          </div>
+        </div>
+        <!-- Ghost next post -->
+        <div style="background:#fff;padding:12px 10px;opacity:.35;display:flex;gap:8px">
+          <div style="width:38px;height:38px;border-radius:50%;background:#ddd;flex-shrink:0"></div>
+          <div><div style="width:80px;height:10px;background:#ddd;border-radius:4px;margin-bottom:5px"></div><div style="width:140px;height:8px;background:#eee;border-radius:4px"></div></div>
+        </div>
+      </div>`;
+    }
+
+    // ── Instagram mobile feed ───────────────────────────────────────────────
+    if (plat === 'ig') {
+      const igBg = 'linear-gradient(135deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%)';
+      const igSlug = name.toLowerCase().replace(/\s+/g,'');
+      const imgArea = postImgDataUrl
+        ? `<img src="${postImgDataUrl}" style="width:100%;height:100%;object-fit:cover;display:block">`
+        : `<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;color:#aaa;font-size:12px;text-align:center;padding:20px;box-sizing:border-box">📷 Add an image to complete the Instagram preview</div>`;
+      const showMore = raw.length > 60;
+      return `<div style="background:#fff;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif">
+        <!-- IG top bar -->
+        <div style="background:#fff;padding:10px 14px;display:flex;align-items:center;border-bottom:1px solid #dbdbdb;position:sticky;top:0;z-index:10">
+          <span style="font-family:Georgia,'Times New Roman',serif;font-size:22px;font-style:italic;color:#262626;letter-spacing:-0.5px">Instagram</span>
+          <div style="display:flex;gap:18px;align-items:center;margin-left:auto">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M12 8v8m-4-4h8"/></svg>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          </div>
+        </div>
+        <!-- Stories row -->
+        <div style="display:flex;gap:12px;padding:10px 12px;border-bottom:1px solid #dbdbdb;overflow:hidden">
+          <div style="flex-shrink:0;text-align:center">
+            <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(45deg,#fd5,#f90,#f15,#a00aff);padding:2px;margin-bottom:3px">
+              <div style="width:100%;height:100%;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden">${avInner}</div>
+            </div>
+            <div style="font-size:10px;color:#262626;max-width:52px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Your story</div>
+          </div>
+          ${['Alex','Jordan','Sam'].map(n=>`<div style="flex-shrink:0;text-align:center"><div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(45deg,#fd5,#f90,#f15,#a00aff);padding:2px;margin-bottom:3px"><div style="width:100%;height:100%;border-radius:50%;background:#ddd"></div></div><div style="font-size:10px;color:#262626">${n}</div></div>`).join('')}
+        </div>
+        <!-- Post -->
+        <div style="border-bottom:1px solid #dbdbdb">
+          <div style="display:flex;align-items:center;padding:10px 12px;gap:10px">
+            ${avatarDiv(32, igBg, '')}
+            <span style="font-size:14px;font-weight:700;color:#262626;flex:1">${igSlug}</span>
+            <button style="background:none;border:none;color:#0095f6;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit">Follow</button>
+            <button style="background:none;border:none;font-size:18px;color:#262626;cursor:pointer">···</button>
+          </div>
+          <div style="width:100%;aspect-ratio:1/1;background:#f5f5f5;overflow:hidden">${imgArea}</div>
+          <div style="padding:8px 12px;display:flex;gap:14px;align-items:center">
+            <button style="background:none;border:none;font-size:22px;cursor:pointer;padding:2px;line-height:1">🤍</button>
+            <button style="background:none;border:none;font-size:22px;cursor:pointer;padding:2px;line-height:1">💬</button>
+            <button style="background:none;border:none;font-size:22px;cursor:pointer;padding:2px;line-height:1">↗️</button>
+            <button style="background:none;border:none;font-size:22px;cursor:pointer;padding:2px;line-height:1;margin-left:auto">🔖</button>
+          </div>
+          <div style="padding:0 12px 4px;font-size:14px;font-weight:700;color:#262626">1,247 likes</div>
+          <!-- Caption: 2 lines in feed, then "more" -->
+          <div style="padding:0 12px 12px;font-size:14px;color:#262626;line-height:1.5">
+            <span style="font-weight:700;margin-right:4px">${igSlug}</span><span style="${clamp(2)}">${esc(raw)}</span>${showMore ? ` <span style="color:#8e8e8e;cursor:pointer">more</span>` : ''}
+          </div>
+        </div>
+        <!-- Ghost next post -->
+        <div style="padding:10px 12px;opacity:.35;display:flex;gap:10px;align-items:center">
+          <div style="width:30px;height:30px;border-radius:50%;background:#ddd;flex-shrink:0"></div>
+          <div style="width:80px;height:9px;background:#ddd;border-radius:4px"></div>
+          <div style="margin-left:auto;width:50px;height:9px;background:#eee;border-radius:4px"></div>
+        </div>
+      </div>`;
+    }
+
+    return '';
+  }
+
   function syncMobilePreviews() {
-    const pairs = [
-      { desktop: '.li-card',  mobile: '.mobile-li-card' },
-      { desktop: '.x-card',   mobile: '.mobile-x-card'  },
-      { desktop: '.fb-card',  mobile: '.mobile-fb-card' },
-      { desktop: '.ig-card',  mobile: '.mobile-ig-card' },
-    ];
-    pairs.forEach(({ desktop, mobile }) => {
-      const src = document.querySelector(desktop);
-      const dst = document.querySelector(mobile);
-      if (src && dst) {
-        dst.innerHTML = src.innerHTML;
-        // Copy any inline styles (e.g. image src)
-        Array.from(src.querySelectorAll('[style]')).forEach((el, i) => {
-          const mirrors = dst.querySelectorAll('[style]');
-          if (mirrors[i]) mirrors[i].setAttribute('style', el.getAttribute('style'));
-        });
-      }
+    const raw    = document.getElementById('post-input').value;
+    const name   = document.getElementById('name-input').value  || 'Your Name';
+    const title  = document.getElementById('title-input').value || '';
+    const handle = document.getElementById('handle-input').value || '@handle';
+    const avHtml = avatarDataUrl
+      ? `<img src="${avatarDataUrl}" style="width:100%;height:100%;object-fit:cover;display:block">`
+      : null;
+
+    const map = { li: '.mobile-li-card', x: '.mobile-x-card', fb: '.mobile-fb-card', ig: '.mobile-ig-card' };
+    Object.entries(map).forEach(([plat, sel]) => {
+      const dst = document.querySelector(sel);
+      if (dst) dst.innerHTML = buildMobileCard(plat, raw, name, title, handle, avHtml);
     });
   }
 
