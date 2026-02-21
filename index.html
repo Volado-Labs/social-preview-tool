@@ -1005,7 +1005,7 @@
 
 <script>
   const LI_LIMIT = 3000, X_LIMIT = 280, LI_TRUNC = 210;
-  let platform = 'li', avatarDataUrl = null, postImgDataUrl = null;
+  let platform = 'li', avatarDataUrl = null, postImgDataUrl = null, postImgNaturalRatio = 1.91;
 
   function setPlatform(p) {
     // hide all previews
@@ -1048,7 +1048,15 @@
     const r = new FileReader();
     r.onload = ev => {
       postImgDataUrl = ev.target.result;
-      document.getElementById('li-post-img').src = postImgDataUrl;
+      const liImg = document.getElementById('li-post-img');
+      // Detect natural aspect ratio and clamp to LinkedIn's supported range (4:5 → 1.91:1)
+      liImg.onload = function() {
+        const raw = liImg.naturalWidth / liImg.naturalHeight;
+        postImgNaturalRatio = Math.min(Math.max(raw, 4/5), 1.91);
+        liImg.style.aspectRatio = postImgNaturalRatio + '/1';
+        syncMobilePreviews(); // re-render mobile with correct ratio
+      };
+      liImg.src = postImgDataUrl;
       document.getElementById('li-img-wrap').style.display = 'block';
       document.getElementById('x-post-img').src = postImgDataUrl;
       document.getElementById('x-img-wrap').style.display = 'block';
@@ -1061,6 +1069,7 @@
 
   function clearPostImage() {
     postImgDataUrl = null;
+    postImgNaturalRatio = 1.91;
     ['li-post-img','x-post-img'].forEach(id => document.getElementById(id).src = '');
     ['li-img-wrap','x-img-wrap'].forEach(id => document.getElementById(id).style.display = 'none');
     document.getElementById('post-img-preview').src = '';
@@ -1218,7 +1227,7 @@ If you run a local business and you're serious about growth, DM me "AUDIT" and I
           <!-- Text: clamped to 3 lines (feed view before expanding) -->
           <div style="padding:8px 12px 0;font-size:14px;color:rgba(0,0,0,.9);line-height:1.5;${clamp(3)}">${postHtml}</div>
           ${showSeeMore ? `<div style="padding:2px 12px 6px"><span style="color:rgba(0,0,0,.55);font-size:14px">…see more</span></div>` : `<div style="padding-bottom:6px"></div>`}
-          ${postImgDataUrl ? `<img src="${postImgDataUrl}" style="width:100%;aspect-ratio:1.91/1;object-fit:cover;object-position:top center;display:block">` : ''}
+          ${postImgDataUrl ? `<img src="${postImgDataUrl}" style="width:100%;aspect-ratio:${postImgNaturalRatio}/1;object-fit:cover;object-position:top center;display:block">` : ''}
           <!-- Engagement -->
           <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 12px;border-top:1px solid #f0f0f0;margin-top:4px">
             <div style="display:flex;align-items:center;gap:3px">
