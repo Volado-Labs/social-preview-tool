@@ -1054,6 +1054,8 @@
         const raw = liImg.naturalWidth / liImg.naturalHeight;
         postImgNaturalRatio = Math.min(Math.max(raw, 4/5), 1.91);
         liImg.style.aspectRatio = postImgNaturalRatio + '/1';
+        // Also update desktop X image to match natural ratio
+        document.getElementById('x-post-img').style.aspectRatio = postImgNaturalRatio + '/1';
         syncMobilePreviews(); // re-render mobile with correct ratio
       };
       liImg.src = postImgDataUrl;
@@ -1282,7 +1284,7 @@ If you run a local business and you're serious about growth, DM me "AUDIT" and I
             </div>
             <!-- Full tweet text — X doesn't truncate in feed for normal-length posts -->
             <div style="font-size:14px;color:#0f1419;line-height:1.5;white-space:pre-wrap;word-break:break-word;margin-bottom:10px">${tweetHtml}</div>
-            ${postImgDataUrl ? `<div style="border-radius:12px;overflow:hidden;margin-bottom:10px"><img src="${postImgDataUrl}" style="width:100%;aspect-ratio:2/1;object-fit:cover;object-position:center;display:block"></div>` : ''}
+            ${postImgDataUrl ? `<div style="border-radius:12px;overflow:hidden;margin-bottom:10px"><img src="${postImgDataUrl}" style="width:100%;aspect-ratio:${postImgNaturalRatio}/1;object-fit:cover;object-position:center;display:block"></div>` : ''}
             <!-- Actions -->
             <div style="display:flex;justify-content:space-between;align-items:center;color:#536471;font-size:12px;max-width:260px">
               <button style="display:flex;align-items:center;gap:4px;background:none;border:none;color:#536471;font-size:12px;cursor:pointer;padding:4px 0"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 7.501 3.58 7.501 8 0 4.421-3.01 8-7.5 8h-8.366c-.476.016-.85-.02-1.24-.248-.392-.228-.632-.603-.634-1.028L3.35 14.23l-.77.22c-.56.16-1.13-.2-1.25-.77l1.624-.37L2.754 11zm2-.003.003 2.5-.003 2.5H9.756c3.373 0 5.501-2.58 5.501-6 0-3.42-2.128-6-5.5-6H9.756c-3.373 0-6.005 2.58-6.005 6z"/></svg>312</button>
