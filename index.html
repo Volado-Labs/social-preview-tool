@@ -219,8 +219,8 @@
   .li-hashtag { color: #0a66c2; }
   .li-mention  { color: #0a66c2; }
 
-  .post-image-wrap { display: none; margin-top: 10px; }
-  .post-image-wrap img { width: 100%; max-height: 460px; object-fit: cover; display: block; }
+  .post-image-wrap { display: none; margin-top: 10px; overflow: hidden; }
+  .post-image-wrap img { width: 100%; aspect-ratio: 1.91/1; object-fit: cover; object-position: top center; display: block; }
 
   .li-reactions { display: flex; align-items: center; justify-content: space-between; padding: 6px 16px; margin-top: 8px; }
 
@@ -273,7 +273,7 @@
   .x-mention  { color: #1d9bf0; }
 
   .x-image-wrap { display: none; border-radius: 12px; overflow: hidden; margin-bottom: 12px; }
-  .x-image-wrap img { width: 100%; max-height: 400px; object-fit: cover; display: block; }
+  .x-image-wrap img { width: 100%; aspect-ratio: 2/1; object-fit: cover; object-position: center; display: block; }
 
   .x-timestamp-row { padding: 12px 16px; border-top: 1px solid #eff3f4; font-size: 15px; color: #536471; display: flex; align-items: center; gap: 6px; }
   .x-stats-row     { padding: 10px 16px; border-top: 1px solid #eff3f4; display: flex; align-items: center; gap: 20px; font-size: 14px; color: #536471; }
@@ -465,7 +465,7 @@
   .ig-post-username { font-weight:700; font-size:14px; color:#262626; flex:1; }
   .ig-follow-btn { font-size:14px; color:#0095f6; font-weight:700; background:none; border:none; cursor:pointer; padding:0; }
   .ig-more-btn { background:none; border:none; font-size:18px; color:#262626; cursor:pointer; }
-  .ig-post-img-wrap { width:100%; aspect-ratio:1/1; background:#f5f5f5; display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; }
+  .ig-post-img-wrap { width:100%; aspect-ratio:4/5; background:#f5f5f5; display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; }
   .ig-post-img-wrap img { width:100%; height:100%; object-fit:cover; }
   .ig-no-img { color:#aaa; font-size:13px; text-align:center; padding:24px; }
   .ig-action-bar { display:flex; align-items:center; padding:10px 16px; gap:14px; }
@@ -1218,7 +1218,7 @@ If you run a local business and you're serious about growth, DM me "AUDIT" and I
           <!-- Text: clamped to 3 lines (feed view before expanding) -->
           <div style="padding:8px 12px 0;font-size:14px;color:rgba(0,0,0,.9);line-height:1.5;${clamp(3)}">${postHtml}</div>
           ${showSeeMore ? `<div style="padding:2px 12px 6px"><span style="color:rgba(0,0,0,.55);font-size:14px">…see more</span></div>` : `<div style="padding-bottom:6px"></div>`}
-          ${postImgDataUrl ? `<img src="${postImgDataUrl}" style="width:100%;max-height:200px;object-fit:cover;display:block">` : ''}
+          ${postImgDataUrl ? `<img src="${postImgDataUrl}" style="width:100%;aspect-ratio:1.91/1;object-fit:cover;object-position:top center;display:block">` : ''}
           <!-- Engagement -->
           <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 12px;border-top:1px solid #f0f0f0;margin-top:4px">
             <div style="display:flex;align-items:center;gap:3px">
@@ -1273,7 +1273,7 @@ If you run a local business and you're serious about growth, DM me "AUDIT" and I
             </div>
             <!-- Full tweet text — X doesn't truncate in feed for normal-length posts -->
             <div style="font-size:14px;color:#0f1419;line-height:1.5;white-space:pre-wrap;word-break:break-word;margin-bottom:10px">${tweetHtml}</div>
-            ${postImgDataUrl ? `<div style="border-radius:12px;overflow:hidden;margin-bottom:10px"><img src="${postImgDataUrl}" style="width:100%;max-height:220px;object-fit:cover;display:block"></div>` : ''}
+            ${postImgDataUrl ? `<div style="border-radius:12px;overflow:hidden;margin-bottom:10px"><img src="${postImgDataUrl}" style="width:100%;aspect-ratio:2/1;object-fit:cover;object-position:center;display:block"></div>` : ''}
             <!-- Actions -->
             <div style="display:flex;justify-content:space-between;align-items:center;color:#536471;font-size:12px;max-width:260px">
               <button style="display:flex;align-items:center;gap:4px;background:none;border:none;color:#536471;font-size:12px;cursor:pointer;padding:4px 0"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M1.751 10c0-4.42 3.584-8 8.005-8h4.366c4.49 0 7.501 3.58 7.501 8 0 4.421-3.01 8-7.5 8h-8.366c-.476.016-.85-.02-1.24-.248-.392-.228-.632-.603-.634-1.028L3.35 14.23l-.77.22c-.56.16-1.13-.2-1.25-.77l1.624-.37L2.754 11zm2-.003.003 2.5-.003 2.5H9.756c3.373 0 5.501-2.58 5.501-6 0-3.42-2.128-6-5.5-6H9.756c-3.373 0-6.005 2.58-6.005 6z"/></svg>312</button>
@@ -1374,7 +1374,7 @@ If you run a local business and you're serious about growth, DM me "AUDIT" and I
             <button style="background:none;border:none;color:#0095f6;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit">Follow</button>
             <button style="background:none;border:none;font-size:18px;color:#262626;cursor:pointer">···</button>
           </div>
-          <div style="width:100%;aspect-ratio:1/1;background:#f5f5f5;overflow:hidden">${imgArea}</div>
+          <div style="width:100%;aspect-ratio:4/5;background:#f5f5f5;overflow:hidden">${imgArea}</div>
           <div style="padding:8px 12px;display:flex;gap:14px;align-items:center">
             <button style="background:none;border:none;font-size:22px;cursor:pointer;padding:2px;line-height:1">🤍</button>
             <button style="background:none;border:none;font-size:22px;cursor:pointer;padding:2px;line-height:1">💬</button>
