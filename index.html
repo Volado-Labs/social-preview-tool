@@ -219,7 +219,7 @@
   .li-hashtag { color: #0a66c2; }
   .li-mention  { color: #0a66c2; }
 
-  .post-image-wrap { display: none; margin-top: 10px; }
+  .post-image-wrap { display: none; margin-top: 0; }
   .post-image-wrap img { width: 100%; height: auto; display: block; }
 
   .li-reactions { display: flex; align-items: center; justify-content: space-between; padding: 6px 16px; margin-top: 8px; }
@@ -1004,7 +1004,7 @@
 <div class="site-footer">© Volado Labs · Post Preview Tool</div>
 
 <script>
-  const LI_LIMIT = 3000, X_LIMIT = 280, LI_TRUNC = 210;
+  const LI_LIMIT = 3000, X_LIMIT = 280, LI_TRUNC = 3000;
   let platform = 'li', avatarDataUrl = null, postImgDataUrl = null, postImgNaturalRatio = 1.91;
 
   function setPlatform(p) {
